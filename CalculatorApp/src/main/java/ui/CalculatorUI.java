@@ -1,3 +1,8 @@
+/**
+ * Liz Mahoney
+ * Calculator App - Assignment 1
+ *
+ */
 package ui;
 
 
@@ -8,15 +13,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 
-
-
+/**
+ * This class builds the calculator interface
+ */
 public class CalculatorUI extends Application {
+
+
+    public static final int HORIZONTAL_GRID_SPACE = 5;
+    public static final int VERTICAL_GRID_SPACE = 5;
+    public static final int WINDOW_MAX_WIDTH = 250;
+    public static final int WINDOW_MAX_HEIGHT = 250;
 
     @Override
     public void start(Stage stage){
@@ -34,8 +44,8 @@ public class CalculatorUI extends Application {
         GridPane gridPane = new GridPane ();
 
         //set space between elements
-        gridPane.setHgap (5);
-        gridPane.setVgap (5);
+        gridPane.setHgap (HORIZONTAL_GRID_SPACE);
+        gridPane.setVgap (VERTICAL_GRID_SPACE);
         gridPane.setPadding (new Insets (20));
 
 
@@ -108,20 +118,21 @@ public class CalculatorUI extends Application {
         gridPane.add(divideButton,3,4);
 
         HBox hBox = new HBox ();
+
         Label label = new Label ();
         TextField textDisplay = new TextField ();
+
         textDisplay.setAlignment (Pos.CENTER_RIGHT);
         textDisplay.setPrefSize (210, 45);
 
+        hBox.setBorder (textDisplay.getBorder ());
 
         hBox.getChildren ().addAll(label,textDisplay);
 
 
+        gridPane.add (hBox ,0 , 0, 4, 1);
 
-
-        gridPane.add (hBox ,0 , 0, 400, 1);
-
-        return new Scene (gridPane, 250,250);
+        return new Scene (gridPane, WINDOW_MAX_WIDTH, WINDOW_MAX_HEIGHT);
     }
 
 }
