@@ -1,7 +1,6 @@
 package ui;
 
 
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,11 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -26,6 +23,7 @@ public class CalculatorUI extends Application {
 
         stage.setTitle ("Fancy Calculator");
         stage.setScene (assemble());
+        stage.setResizable (false);
         stage.show ();
 
     }
@@ -109,22 +107,21 @@ public class CalculatorUI extends Application {
         divideButton.setPrefSize (45,45);
         gridPane.add(divideButton,3,4);
 
-
+        HBox hBox = new HBox ();
         Label label = new Label ();
         TextField textDisplay = new TextField ();
-        HBox hBox = new HBox ();
+        textDisplay.setAlignment (Pos.CENTER_RIGHT);
+        textDisplay.setPrefSize (210, 45);
+
+
         hBox.getChildren ().addAll(label,textDisplay);
-        hBox.setPrefSize (400,50);
-        hBox.setAlignment (Pos.CENTER_LEFT);
+
 
 
 
         gridPane.add (hBox ,0 , 0, 400, 1);
 
-
-
-
-        return new Scene (gridPane, 300,300);
+        return new Scene (gridPane, 250,250);
     }
 
 }
