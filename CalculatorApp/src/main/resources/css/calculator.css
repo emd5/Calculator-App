@@ -1,0 +1,29 @@
+/*Liz Mahoney
+ * 9/19/2017
+ * calculator.css
+ * This is the calculator css file
+ */
+
+.root{
+    -fx-background-color: #333;
+    -fx-font-size: 15px;
+}
+
+.button{
+
+    -fx-background-color: plum;
+    -fx-font: 300;
+}
+
+.hbox{
+    -fx-background-color: pink;
+    -fx-text-alignment: right;
+    -fx-border-style: double;
+}
+
+.label{
+    -fx-border-color: black;
+    -fx-font-family: "monospace";
+    -fx-background-color: silver;
+    -fx-text-alignment: right;
+}
