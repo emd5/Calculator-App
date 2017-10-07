@@ -1,5 +1,5 @@
 /* Liz Mahoney
- * 9/19/2015
+ * 9/19/2017
  *  CalculatorUI.java
  *  This file contains the CalculatorUI class which builds
  *  the calculator
@@ -30,19 +30,17 @@ public class CalculatorUI extends Application {
     public static final int VERTICAL_GRID_SPACE = 5;
     public static final int WINDOW_MAX_WIDTH = 250;
     public static final int WINDOW_MAX_HEIGHT = 250;
-    public static final int BUTTON_WIDTH = 50; //was 50
-    public static final int BUTTON_HEIGHT = 50; //was 50
-    public static final int COL_WIDTH_CONSTRAINTS = 50;
+    public static final int BUTTON_WIDTH = 50;
+    public static final int BUTTON_HEIGHT = 50;
     public static final int ENTER_WIDTH = 200;
     public static final int HBOX_WIDTH_DISPLAY = 210;
     public static final int HBOX_HEIGHT_DISPLAY = 50;
     public static final int WINDOW_PADDING = 20;
-    public static final int ROW_GRID = 4;
-    public static final int COLUMN_GRID = 4;
+    public static final int MAX_ROW_GRID = 4;
+    public static final int MAX_COLUMN_GRID = 4;
     public static final int LABEL_WIDTH = 225;
     public static final int LABEL_HEIGHT = 50;
-
-    public static String[] buttonLabels = {"7","8", "9","+", "4", "5","6","-",
+    private static String[] buttonLabels = {"7","8", "9","+", "4", "5","6","-",
             "1", "2","3","*", "0", "Enter","/"};
 
     /**
@@ -100,18 +98,18 @@ public class CalculatorUI extends Application {
             //add enter button spans 2 columns
             if(buttonLabels[j].equals ("Enter")){
 
-                gridPane.add(buttons[j], j % COLUMN_GRID,j/ ROW_GRID +1, 2, 1);
+                gridPane.add(buttons[j], j % MAX_COLUMN_GRID,j/ MAX_ROW_GRID +1, 2, 1);
 
             }
 
             //add divide button to move over 4th column
             else if(buttonLabels[j].equals ("/")){
-                gridPane.add (buttons[j], j % COLUMN_GRID+ 1, j/ROW_GRID + 1);
+                gridPane.add (buttons[j], j % MAX_COLUMN_GRID + 1, j/ MAX_ROW_GRID + 1);
             }
 
             //add buttons to the grid
             else {
-                gridPane.add (buttons[j], j % COLUMN_GRID, j / ROW_GRID + 1);
+                gridPane.add (buttons[j], j % MAX_COLUMN_GRID, j / MAX_ROW_GRID + 1);
             }
 
         }
@@ -134,7 +132,7 @@ public class CalculatorUI extends Application {
 
         hBox.getChildren ().add(label);
 
-        gridPane.add (hBox ,0 , 0, 4, 1);
+        gridPane.add (hBox ,0 , 0, MAX_COLUMN_GRID, 1);
 
         //apply css to calculator
         gridPane.getStylesheets ().add ("css/calculator.css");
