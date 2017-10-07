@@ -1,10 +1,10 @@
-/**
- * Liz Mahoney
- * Calculator App - Assignment 1
- *
+/* Liz Mahoney
+ * 9/19/2015
+ *  CalculatorUI.java
+ *  This file contains the CalculatorUI class which builds
+ *  the calculator
  */
 package ui;
-
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -12,32 +12,56 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.MalformedURLException;
 
 /**
  * This class builds the calculator interface
  */
 public class CalculatorUI extends Application {
 
-
+    //global variables
     public static final int HORIZONTAL_GRID_SPACE = 5;
     public static final int VERTICAL_GRID_SPACE = 5;
     public static final int WINDOW_MAX_WIDTH = 250;
     public static final int WINDOW_MAX_HEIGHT = 250;
+    public static final int BUTTON_WIDTH = 50; //was 50
+    public static final int BUTTON_HEIGHT = 50; //was 50
+    public static final int COL_WIDTH_CONSTRAINTS = 50;
+    public static final int ENTER_WIDTH = 200;
+    public static final int TEXT_WIDTH_DISPLAY = 210;
+    public static final int TEXT_HEIGHT_DISPLAY = 45;
+    public static final int WINDOW_PADDING = 20;
+    public static final int ROW_GRID = 4;
+    public static final int COLUMN_GRID = 4;
 
+
+    /**
+     * This method sets up the calculator
+     *
+     * @param stage a window that represents the calculator
+     */
     @Override
     public void start(Stage stage){
 
-        stage.setTitle ("Fancy Calculator");
+        //sets and shows title and calculator features.
+        stage.setTitle ("Calculator");
         stage.setScene (assemble());
         stage.setResizable (false);
         stage.show ();
 
     }
 
+    /**
+     * This method assembles the layout of the calculator
+     *
+     * @return the calculator display
+     */
     private Scene assemble(){
 
         //assemble controls in a grid
@@ -46,93 +70,83 @@ public class CalculatorUI extends Application {
         //set space between elements
         gridPane.setHgap (HORIZONTAL_GRID_SPACE);
         gridPane.setVgap (VERTICAL_GRID_SPACE);
-        gridPane.setPadding (new Insets (20));
+        gridPane.setPadding (new Insets (WINDOW_PADDING));
 
 
         gridPane.getColumnConstraints ().addAll (
-                new ColumnConstraints (50),
-                new ColumnConstraints (50),
-                new ColumnConstraints (50),
-                new ColumnConstraints (50));
+                new ColumnConstraints (COL_WIDTH_CONSTRAINTS),
+                new ColumnConstraints (COL_WIDTH_CONSTRAINTS),
+                new ColumnConstraints (COL_WIDTH_CONSTRAINTS),
+                new ColumnConstraints (COL_WIDTH_CONSTRAINTS));
+
+
+        String[] buttonLabels = {"7","8", "9","+", "4", "5","6","-",
+                "1", "2","3","*", "0", "Enter","/"};
+
+        Button[] buttons = new Button[buttonLabels.length];
+
+        //create a new button each button has its own text
+        //create buttons with label
+        for(int i=0; i<buttonLabels.length; i++){
+            buttons[i] = new Button (buttonLabels[i]);
+            if(buttonLabels[i].equals ("Enter")){
+                buttons[i] = new Button (buttonLabels[i]);
+                buttons[i].setPrefSize (ENTER_WIDTH, BUTTON_HEIGHT);
+            }
+            else {
+                buttons[i].setPrefSize (BUTTON_WIDTH, BUTTON_HEIGHT);
+            }
+        }
 
 
 
-        Button button1 = new Button ("1");
-        button1.setPrefSize (45,45);
-        gridPane.add(button1,0,3);
+        //add buttons to the grid
+        for (int j=0; j<buttonLabels.length; j++){
 
-        Button button2 = new Button ("2");
-        button2.setPrefSize (45,45);
-        gridPane.add(button2,1,3);
+            if(buttonLabels[j].equals ("Enter")){
 
-        Button button3 = new Button ("3");
-        button3.setPrefSize (45,45);
-        gridPane.add(button3,2,3);
+                gridPane.add(buttons[j], j % COLUMN_GRID,j/ ROW_GRID +1, 2, 1);
 
-        Button button4 = new Button ("4");
-        button4.setPrefSize (45,45);
-        gridPane.add(button4,0,2);
+            }
+            else if(buttonLabels[j].equals ("/")){
+                gridPane.add (buttons[j], j % COLUMN_GRID+1, j/ROW_GRID + 1);
+            }
+            else {
+                //creating the grid
+                gridPane.add (buttons[j], j % COLUMN_GRID, j / ROW_GRID + 1);
+            }
 
-        Button button5 = new Button ("5");
-        button5.setPrefSize (45,45);
-        gridPane.add(button5,1,2);
 
-        Button button6 = new Button ("6");
-        button6.setPrefSize (45,45);
-        gridPane.add(button6,2,2);
+        }
 
-        Button button7 = new Button ("7");
-        button7.setPrefSize (45,45);
-        gridPane.add(button7,0,1);
-
-        Button button8 = new Button ("8");
-        button8.setPrefSize (45,45);
-        gridPane.add(button8,1 ,1);
-
-        Button button9 = new Button ("9");
-        button9.setPrefSize (45,45);
-        gridPane.add(button9,2,1);
-
-        Button button0 = new Button ("0");
-        button0.setPrefSize (45,45);
-        gridPane.add(button0,0,4);
-
-        Button enter = new Button ("Enter");
-        enter.setPrefSize (100,45);
-        gridPane.add(enter,1,4, 2, 1 );
-
-        Button addButton = new Button ("+");
-        addButton.setPrefSize (45,45);
-        gridPane.add(addButton,3,1);
-
-        Button minusButton = new Button ("-");
-        minusButton.setPrefSize (45,45);
-        gridPane.add(minusButton,3,2);
-
-        Button multiplyButton = new Button ("*");
-        multiplyButton.setPrefSize (45,45);
-        gridPane.add(multiplyButton,3,3);
-
-        Button divideButton = new Button ("/");
-        divideButton.setPrefSize (45,45);
-        gridPane.add(divideButton,3,4);
-
+        //create display box
         HBox hBox = new HBox ();
+        Label label = new Label ("43770");
 
-        Label label = new Label ();
-        TextField textDisplay = new TextField ();
+        label.setPrefSize (225,50);
+        label.setAlignment (Pos.CENTER_RIGHT);
+        hBox.setAlignment (Pos.CENTER_RIGHT);
 
-        textDisplay.setAlignment (Pos.CENTER_RIGHT);
-        textDisplay.setPrefSize (210, 45);
 
-        hBox.setBorder (textDisplay.getBorder ());
-
-        hBox.getChildren ().addAll(label,textDisplay);
-
+        hBox.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        hBox.setPrefSize (TEXT_WIDTH_DISPLAY,TEXT_HEIGHT_DISPLAY);
+        hBox.getChildren ().add(label);
 
         gridPane.add (hBox ,0 , 0, 4, 1);
 
+        //apply css to calculator
+        try {
+           gridPane.getStylesheets().add( new File ("css/calculator.css")
+                   .toURI ().toURL ().toString ());
+
+        }
+        catch (MalformedURLException e) {
+           e.printStackTrace ();
+        }
+
         return new Scene (gridPane, WINDOW_MAX_WIDTH, WINDOW_MAX_HEIGHT);
+
     }
 
 }
