@@ -7,6 +7,7 @@
 
 package launch;
 
+import calculator.Calculator;
 import javafx.application.Application;
 import ui.CalculatorUI;
 

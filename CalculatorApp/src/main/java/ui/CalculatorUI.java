@@ -1,5 +1,5 @@
 /* Liz Mahoney
- * 9/19/2017
+ * 10/19/2017
  *  CalculatorUI.java
  *  This file contains the CalculatorUI class which builds
  *  the calculator
@@ -40,7 +40,8 @@ public class CalculatorUI extends Application {
     public static final int MAX_COLUMN_GRID = 4;
     public static final int LABEL_WIDTH = 225;
     public static final int LABEL_HEIGHT = 50;
-    private static String[] buttonLabels = {"7","8", "9","+", "4", "5","6","-",
+    public static String[] buttonLabels =
+            {"7","8", "9","+" , "4", "5","6","-",
             "1", "2","3","*", "0", "Enter","/"};
 
     /**
@@ -98,7 +99,8 @@ public class CalculatorUI extends Application {
             //add enter button spans 2 columns
             if(buttonLabels[j].equals ("Enter")){
 
-                gridPane.add(buttons[j], j % MAX_COLUMN_GRID,j/ MAX_ROW_GRID +1, 2, 1);
+                gridPane.add(buttons[j], j % MAX_COLUMN_GRID,
+                        j/ MAX_ROW_GRID +1, 2, 1);
 
             }
 
