@@ -7,9 +7,9 @@
 
 package launch;
 
-import calculator.Calculator;
 import javafx.application.Application;
 import ui.CalculatorUI;
+import calculator.Calculator;
 
 /**
  * This is the driver class to test the calculator ui with
@@ -28,6 +28,7 @@ public class Launcher {
      * @param args command-line arguments
      */
     public static void main(String[] args) {
+
 
         Application.launch(CalculatorUI.class, args);
 

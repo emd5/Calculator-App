@@ -7,7 +7,10 @@
 
 package ui;
 
+import calculator.Calculator;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -41,8 +44,9 @@ public class CalculatorUI extends Application {
     public static final int LABEL_WIDTH = 225;
     public static final int LABEL_HEIGHT = 50;
     public static String[] buttonLabels =
-            {"7","8", "9","+" , "4", "5","6","-",
-            "1", "2","3","*", "0", "Enter","/"};
+            {"sin(x)","cos(x)","tan(x)","\u221A","7","8", "9","+" , "4", "5","6","-",
+            "1", "2","3","*", "0","/", "Enter","CE"};
+    public Label label;
 
     /**
      * This method sets up the calculator
@@ -55,7 +59,7 @@ public class CalculatorUI extends Application {
         // window and calculator features.
         stage.setTitle ("Calculator");
         stage.setScene (assemble());
-        stage.setResizable (false);
+        //stage.setResizable (false);
         stage.show ();
 
     }
@@ -87,6 +91,7 @@ public class CalculatorUI extends Application {
             if(buttonLabels[i].equals ("Enter")){
                 buttons[i] = new Button (buttonLabels[i]);
                 buttons[i].setPrefSize (ENTER_WIDTH, BUTTON_HEIGHT);
+
             }
             else {
                 buttons[i].setPrefSize (BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -99,22 +104,30 @@ public class CalculatorUI extends Application {
             //add enter button spans 2 columns
             if(buttonLabels[j].equals ("Enter")){
 
-                gridPane.add(buttons[j], j % MAX_COLUMN_GRID,
-                        j/ MAX_ROW_GRID +1, 2, 1);
+                gridPane.add(buttons[j], j % 1,
+                        j/ MAX_ROW_GRID +2, 3, 1);
 
             }
 
             //add divide button to move over 4th column
             else if(buttonLabels[j].equals ("/")){
-                gridPane.add (buttons[j], j % MAX_COLUMN_GRID + 1, j/ MAX_ROW_GRID + 1);
+                gridPane.add (buttons[j], j % MAX_COLUMN_GRID + 2,
+                        j/ MAX_ROW_GRID + 1);
+            }
+            //add divide button to move over 4th column
+            else if(buttonLabels[j].equals ("CE")){
+                gridPane.add (buttons[j], j % MAX_COLUMN_GRID,
+                        j/ MAX_ROW_GRID + 2);
             }
 
             //add buttons to the grid
             else {
-                gridPane.add (buttons[j], j % MAX_COLUMN_GRID, j / MAX_ROW_GRID + 1);
+                gridPane.add (buttons[j], j % MAX_COLUMN_GRID,
+                        j / MAX_ROW_GRID + 1);
             }
 
         }
+
 
         //create display box, aligns right
         HBox hBox = new HBox ();
@@ -126,7 +139,7 @@ public class CalculatorUI extends Application {
         hBox.setPrefSize (HBOX_WIDTH_DISPLAY, HBOX_HEIGHT_DISPLAY);
 
         //create label
-        Label label = new Label ("43770");
+        label = new Label ();
 
         //set labels size, alignment
         label.setPrefSize (LABEL_WIDTH, LABEL_HEIGHT);
@@ -138,6 +151,23 @@ public class CalculatorUI extends Application {
 
         //apply css to calculator
         gridPane.getStylesheets ().add ("css/calculator.css");
+
+        //create event handling for each button
+        for(int i=0 ; i< buttonLabels.length ; i++){
+            final String buttonOperations = buttonLabels[i];
+
+            buttons[i].setOnAction (new EventHandler<ActionEvent> () {
+                public void handle(ActionEvent event) {
+                    //displays button pressed on label
+                    //Calculator input = new Calculator ();
+                    label.setText (Calculator.storeInputPressed (buttonOperations));
+
+                    System.out.println (label);
+                    //stores button pressed through calculator class
+
+                }
+            });
+        }
 
         return new Scene (gridPane, WINDOW_MAX_WIDTH, WINDOW_MAX_HEIGHT);
 
