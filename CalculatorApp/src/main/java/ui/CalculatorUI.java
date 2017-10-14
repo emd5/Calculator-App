@@ -32,7 +32,7 @@ public class CalculatorUI extends Application {
     public static final int HORIZONTAL_GRID_SPACE = 5;
     public static final int VERTICAL_GRID_SPACE = 5;
     public static final int WINDOW_MAX_WIDTH = 250;
-    public static final int WINDOW_MAX_HEIGHT = 250;
+    public static final int WINDOW_MAX_HEIGHT = 350;
     public static final int BUTTON_WIDTH = 50;
     public static final int BUTTON_HEIGHT = 50;
     public static final int ENTER_WIDTH = 200;
@@ -43,10 +43,19 @@ public class CalculatorUI extends Application {
     public static final int MAX_COLUMN_GRID = 4;
     public static final int LABEL_WIDTH = 225;
     public static final int LABEL_HEIGHT = 50;
+    public static final String SQUARED_BUTTON = "x\u00B2";
+    public static final String SQUAREROOT_BUTTON = "\u221A";
+    public static final String CUBED_BUTTON= "\u221B";
+
     public static String[] buttonLabels =
-            {"sin(x)","cos(x)","tan(x)","\u221A","7","8", "9","+" , "4", "5","6","-",
-            "1", "2","3","*", "0","/", "Enter","CE"};
-    public Label label;
+            {"sin(x)","cos(x)","tan(x)","CE",
+            SQUARED_BUTTON,CUBED_BUTTON,SQUAREROOT_BUTTON,
+             "/","7","8", "9","+", "4", "5","6","-",
+            "1", "2","3","*", "0", "Enter"};
+
+    public static Button[] buttons;
+    public static Label label;
+    public static GridPane gridPane;
 
     /**
      * This method sets up the calculator
@@ -59,7 +68,7 @@ public class CalculatorUI extends Application {
         // window and calculator features.
         stage.setTitle ("Calculator");
         stage.setScene (assemble());
-        //stage.setResizable (false);
+        stage.setResizable (false);
         stage.show ();
 
     }
@@ -72,15 +81,19 @@ public class CalculatorUI extends Application {
      */
     private Scene assemble(){
 
-        //assemble controls in a grid
-        GridPane gridPane = new GridPane ();
+        layout ();
+        createButtons ();
+        addButtons ();
+        eventHandling ();
+        return new Scene (gridPane, WINDOW_MAX_WIDTH, WINDOW_MAX_HEIGHT);
 
-        //set space between elements
-        gridPane.setHgap (HORIZONTAL_GRID_SPACE);
-        gridPane.setVgap (VERTICAL_GRID_SPACE);
-        gridPane.setPadding (new Insets (WINDOW_PADDING));
+    }
 
-        Button[] buttons = new Button[buttonLabels.length];
+    /**
+     * This static method creates the buttons
+     */
+    private static void createButtons(){
+        buttons = new Button[buttonLabels.length];
 
         //create each button with respective button labels
         for(int i=0; i<buttonLabels.length; i++){
@@ -89,45 +102,51 @@ public class CalculatorUI extends Application {
             buttons[i] = new Button (buttonLabels[i]);
 
             if(buttonLabels[i].equals ("Enter")){
-                buttons[i] = new Button (buttonLabels[i]);
+
                 buttons[i].setPrefSize (ENTER_WIDTH, BUTTON_HEIGHT);
 
             }
             else {
+
                 buttons[i].setPrefSize (BUTTON_WIDTH, BUTTON_HEIGHT);
             }
         }
+    }
 
+    /**
+     * This static method add buttons to the gridpane
+     */
+    private static void addButtons(){
         //add buttons to the grid
         for (int j=0; j<buttonLabels.length; j++){
 
-            //add enter button spans 2 columns
+
             if(buttonLabels[j].equals ("Enter")){
-
-                gridPane.add(buttons[j], j % 1,
-                        j/ MAX_ROW_GRID +2, 3, 1);
-
+                gridPane.add(buttons[j], j % MAX_COLUMN_GRID + 1,
+                        j / MAX_ROW_GRID + 2,2,1);
             }
-
-            //add divide button to move over 4th column
-            else if(buttonLabels[j].equals ("/")){
-                gridPane.add (buttons[j], j % MAX_COLUMN_GRID + 2,
-                        j/ MAX_ROW_GRID + 1);
-            }
-            //add divide button to move over 4th column
-            else if(buttonLabels[j].equals ("CE")){
-                gridPane.add (buttons[j], j % MAX_COLUMN_GRID,
-                        j/ MAX_ROW_GRID + 2);
+            else if(buttonLabels[j].equals ("0")){
+                gridPane.add(buttons[j], j % MAX_COLUMN_GRID + 1,
+                        j / MAX_ROW_GRID + 2);
             }
 
             //add buttons to the grid
             else {
-                gridPane.add (buttons[j], j % MAX_COLUMN_GRID,
-                        j / MAX_ROW_GRID + 1);
+                gridPane.add (buttons[j], j % MAX_COLUMN_GRID ,
+                        j / MAX_ROW_GRID+1 );
             }
 
         }
+    }
 
+    private static void layout(){
+        //assemble controls in a grid
+        gridPane = new GridPane ();
+
+        //set space between elements
+        gridPane.setHgap (HORIZONTAL_GRID_SPACE);
+        gridPane.setVgap (VERTICAL_GRID_SPACE);
+        gridPane.setPadding (new Insets (WINDOW_PADDING));
 
         //create display box, aligns right
         HBox hBox = new HBox ();
@@ -151,26 +170,25 @@ public class CalculatorUI extends Application {
 
         //apply css to calculator
         gridPane.getStylesheets ().add ("css/calculator.css");
+    }
+
+    /**
+     * This static method handles the event handling when a button is pressed
+     */
+    private static void eventHandling(){
 
         //create event handling for each button
         for(int i=0 ; i< buttonLabels.length ; i++){
+
             final String buttonOperations = buttonLabels[i];
 
             buttons[i].setOnAction (new EventHandler<ActionEvent> () {
                 public void handle(ActionEvent event) {
-                    //displays button pressed on label
-                    //Calculator input = new Calculator ();
-                    label.setText (Calculator.storeInputPressed (buttonOperations));
 
-                    System.out.println (label);
-                    //stores button pressed through calculator class
-
+                    label.setText (Calculator.buttonPressed (buttonOperations));
                 }
             });
         }
-
-        return new Scene (gridPane, WINDOW_MAX_WIDTH, WINDOW_MAX_HEIGHT);
-
     }
 
 }

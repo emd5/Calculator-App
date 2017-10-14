@@ -8,9 +8,9 @@
 
 package calculator;
 
-import ui.CalculatorUI;
-
 import java.text.DecimalFormat;
+
+import static java.lang.Double.valueOf;
 
 
 /**
@@ -22,12 +22,10 @@ import java.text.DecimalFormat;
  */
 public class Calculator {
 
-    private static String[] buttonPressed = CalculatorUI.buttonLabels;
 
-    private static String displayValue = "";
-    private static double storeValue1;
-    private static double storeValue2;
-    private static String saveOperator;
+    private static double storeValue1=0;
+    private static double storeValue2=0;
+
     private static final String ADD_BUTTON = "+";
     private static final String SUBTRACT_BUTTON = "-";
     private static final String MULTIPLY_BUTTON = "*";
@@ -35,18 +33,21 @@ public class Calculator {
     private static final String ENTER_BUTTON = "Enter";
     private static final String SQUARED = "x\u00B2";
     private static final String RESET_BUTTON = "CE";
-    private static final String SIN_BUTTON ="cos(x)";
-    private static final String COS_BUTTON ="tan(x)";
-    private static final String TAN_BUTTON ="sin(x)";
+    private static final String CUBEROOT_BUTTON = "\u221B";
+    private static final String SIN_BUTTON ="sin(x)";
+    private static final String COS_BUTTON ="cos(x)";
+    private static final String TAN_BUTTON ="tan(x)";
     private static final String SQUAREROOT_BUTTON = "\u221A";
-    private static String UNDEFINED = "undef";
-    private static final String DECIMAL_FORMAT= "####.##";
+    private static final String DECIMAL_FORMAT= "####.###";
+    private static String displayValue = "";
+    private static String saveOperator;
 
     /**
      * This method excepts an input from the UI and separates
      * operands and operators pressed
      *
      * @param input the button pressed on the UI
+     *
      * @return displayValue displays the button pressed to
      * Calculator UI label.
      */
@@ -66,27 +67,33 @@ public class Calculator {
 
             storeSecondValue (displayValue);
             enterPressed ();
+
         }
 
         //CE button is pressed
         else if (input.equals (RESET_BUTTON)){
+
             resetDisplay ();
         }
 
         else if (input.equals (SIN_BUTTON)){
+
             sinPressed (displayValue);
         }
 
         else if (input.equals (COS_BUTTON)){
+
             cosPressed (displayValue);
         }
 
         else if (input.equals (TAN_BUTTON)){
+
             tanPressed (displayValue);
         }
 
-        //exponent button is pressed
+        //squared button is pressed
         else if(input.equals (SQUARED)){
+
             squaredPressed (displayValue);
         }
 
@@ -94,6 +101,11 @@ public class Calculator {
         else if(input.equals (SQUAREROOT_BUTTON)){
 
             squareRootPressed (displayValue);
+        }
+
+        //cubed root is pressed
+        else if (input.equals(CUBEROOT_BUTTON)){
+            cubedPressed (displayValue);
         }
 
          //values from 0-9 pressed and concatenated
@@ -106,41 +118,6 @@ public class Calculator {
         }
 
         return displayValue;
-    }
-
-    private static void squareRootPressed(String input) {
-
-        Double tempValue = Double.valueOf (input);
-
-        convertDecimalToString (Math.sqrt (tempValue));
-    }
-
-    private static void squaredPressed(String input) {
-
-        Double tempValue = Double.valueOf (input);
-
-        convertDecimalToString (Math.pow (tempValue,2));
-    }
-
-    private static void sinPressed(String input) {
-
-        Double tempValue = Double.valueOf (input);
-
-        convertDecimalToString (Math.sin (tempValue));
-    }
-
-    private static void cosPressed(String input) {
-
-        Double tempValue = Double.valueOf (input);
-
-        convertDecimalToString (Math.cos (tempValue));
-    }
-
-    private static void tanPressed(String input) {
-
-        Double tempValue = Double.valueOf (input);
-
-        convertDecimalToString (Math.tan (tempValue));
     }
 
     /**
@@ -160,18 +137,13 @@ public class Calculator {
         else if(saveOperator.equals (MULTIPLY_BUTTON)){
             saveAnswer = storeValue1 * storeValue2;
         }
-        else if(saveOperator.equals (DIVIDE_BUTTON)){
-            System.out.println (displayValue);
-            if (storeValue2 == 0 ){
-                displayValue = UNDEFINED;
-            }
-            else {
-                saveAnswer = storeValue1 / storeValue2;
-            }
+        else if (saveOperator.equals (DIVIDE_BUTTON)){
+            saveAnswer = storeValue1 / storeValue2;
         }
 
         convertDecimalToString (saveAnswer);
     }
+
 
     /**
      * This method formats value to two decimal places, then converts to String
@@ -179,14 +151,18 @@ public class Calculator {
      *
      * @param saveAnswer the answer in decimal form
      */
-    private static void convertDecimalToString(Double saveAnswer){
+    private static String convertDecimalToString(Double saveAnswer){
 
         DecimalFormat df = new DecimalFormat (DECIMAL_FORMAT);
 
-        displayValue = String.valueOf (df.format (saveAnswer));
+        if(storeValue2 == 0.0){
+
+            return displayValue = "0";
+        }
+
+        return displayValue = String.valueOf (df.format (saveAnswer));
 
     }
-
 
     /**
      * A set method that stores the operator
@@ -207,9 +183,7 @@ public class Calculator {
      */
     private static void storeFirstValue(String storeValue) {
 
-        double tempValue = Double.valueOf (storeValue);
-
-        storeValue1 = tempValue;
+         storeValue1 = Double.valueOf (storeValue);
 
     }
 
@@ -221,10 +195,8 @@ public class Calculator {
      */
     private static void storeSecondValue(String storeValue){
 
-        double tempValue = Double.valueOf (storeValue);
-
-        storeValue2= tempValue;
-
+        storeValue2 = Double.valueOf (storeValue);
+        System.out.println (storeValue2);
     }
 
     /**
@@ -238,8 +210,87 @@ public class Calculator {
 
     }
 
-    private static String getUndefined(){
-        return displayValue= UNDEFINED;
+
+    /**
+     * This method performs calculations when square root button
+     * is pressed
+     *
+     * @param input the square root button pressed on the UI
+     */
+    private static void squareRootPressed(String input) {
+
+        Double tempValue = valueOf (input);
+
+        convertDecimalToString (Math.sqrt (tempValue));
     }
+
+    /**
+     * This method performs calculations when cubed button
+     * is pressed
+     *
+     * @param input the cubed button pressed on the UI
+     */
+    private static void cubedPressed(String input) {
+
+        Double tempValue = valueOf (input);
+
+        convertDecimalToString (Math.cbrt (tempValue));
+    }
+
+    /**
+     * This method performs calculations when squared button
+     * is pressed
+     *
+     * @param input the squared button pressed on the UI
+     */
+    private static void squaredPressed(String input) {
+
+        Double tempValue = valueOf (input);
+
+        convertDecimalToString (Math.pow (tempValue,2));
+    }
+
+    /**
+     * This method performs calculations when sin button
+     * is pressed
+     *
+     * @param input the sin button pressed on the UI
+     */
+    private static void sinPressed(String input) {
+
+        Double tempValue = valueOf (input);
+        System.out.println (tempValue);
+        convertDecimalToString (Math.sin (tempValue));
+    }
+
+    /**
+     * This method performs calculations when cos button
+     * is pressed
+     *
+     * @param input the cos button pressed on the UI
+     */
+    private static void cosPressed(String input) {
+
+        Double tempValue = valueOf (input);
+
+        convertDecimalToString (Math.cos (tempValue));
+    }
+
+    /**
+     * This method performs calculations when tan button
+     * is pressed
+     *
+     * @param input the tan button pressed on the UI
+     */
+    private static void tanPressed(String input) {
+
+        Double tempValue = valueOf (input);
+
+        convertDecimalToString (Math.tan (tempValue));
+    }
+
+
+
+
 
 }
