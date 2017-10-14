@@ -14,15 +14,15 @@ import static java.lang.Double.valueOf;
 
 
 /**
- * This class contains all state information and event handlers
- * for interacting with the calculator.
+ * This class contains all state information and stores the
+ * data after a button is pressed.
  *
  * @author Liz Mahoney
  * @version 1.0
  */
 public class Calculator {
 
-
+    //global variables
     private static double storeValue1=0;
     private static double storeValue2=0;
 
@@ -39,6 +39,7 @@ public class Calculator {
     private static final String TAN_BUTTON ="tan(x)";
     private static final String SQUAREROOT_BUTTON = "\u221A";
     private static final String DECIMAL_FORMAT= "####.###";
+
     private static String displayValue = "";
     private static String saveOperator;
 
@@ -288,9 +289,6 @@ public class Calculator {
 
         convertDecimalToString (Math.tan (tempValue));
     }
-
-
-
 
 
 }
