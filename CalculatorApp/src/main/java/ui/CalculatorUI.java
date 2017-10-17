@@ -3,6 +3,7 @@
  *  CalculatorUI.java
  *  This file contains the CalculatorUI class which builds
  *  the calculator
+ *
  */
 
 package ui;
@@ -139,6 +140,9 @@ public class CalculatorUI extends Application {
         }
     }
 
+    /**
+     *This static method handles layout of the calculator
+     */
     private static void layout(){
         //assemble controls in a grid
         gridPane = new GridPane ();

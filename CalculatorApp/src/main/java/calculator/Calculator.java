@@ -4,6 +4,7 @@
  *  Calculator.java
  *  that contains all state information and
  *  event handlers for interacting with the calculator.
+ *
  */
 
 package calculator;
